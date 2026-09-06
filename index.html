@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deep Sky Scanner — Aim your Seestar with confidence</title>
+<meta name="description" content="Point your phone at the night sky and get a ranked list of deep-sky targets scored for altitude, brightness, and Seestar S50 frame fit.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F3EFE4;
+    --cream-dim:#EAE4D4;
+    --ink:#241D14;
+    --ink-soft:#4A4032;
+    --night:#12121C;
+    --night-soft:#1C1E2C;
+    --ember:#A6572B;
+    --ember-bright:#C6703C;
+    --gold:#D8B15C;
+    --sage:#7C9473;
+    --hairline:rgba(36,29,20,0.14);
+    --hairline-night:rgba(243,239,228,0.14);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'IBM Plex Sans',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px;}
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    background:radial-gradient(ellipse 120% 90% at 50% -10%, #232640 0%, var(--night) 55%);
+    color:var(--cream);
+    overflow:hidden;
+    padding:88px 0 120px;
+  }
+  .stars{
+    position:absolute; inset:0;
+    background-image:
+      radial-gradient(1.5px 1.5px at 8% 22%, #fff 100%, transparent 100%),
+      radial-gradient(1px 1px at 18% 62%, #fff 100%, transparent 100%),
+      radial-gradient(2px 2px at 27% 15%, #fff 100%, transparent 100%),
+      radial-gradient(1px 1px at 38% 78%, #fff 100%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 52% 34%, #fff 100%, transparent 100%),
+      radial-gradient(1px 1px at 63% 8%, #fff 100%, transparent 100%),
+      radial-gradient(2px 2px at 71% 58%, #fff 100%, transparent 100%),
+      radial-gradient(1px 1px at 82% 24%, #fff 100%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 91% 68%, #fff 100%, transparent 100%),
+      radial-gradient(1px 1px at 12% 88%, #fff 100%, transparent 100%),
+      radial-gradient(1px 1px at 47% 92%, #fff 100%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 96% 40%, #fff 100%, transparent 100%);
+    opacity:0.6;
+  }
+  .hero-inner{position:relative; display:grid; grid-template-columns:1.15fr 0.85fr; gap:56px; align-items:center;}
+  @media (max-width:860px){ .hero-inner{grid-template-columns:1fr;} }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    color:var(--gold);
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(38px,5vw,58px);
+    line-height:1.04;
+    color:#fff;
+  }
+  .hero h1 em{font-style:italic; color:var(--ember-bright);}
+  .hero p.lede{
+    margin-top:22px;
+    font-size:18px;
+    line-height:1.55;
+    color:#CFCAD8;
+    max-width:46ch;
+  }
+  .hero-ctas{margin-top:34px; display:flex; gap:14px; flex-wrap:wrap; align-items:center;}
+  .btn-store{
+    display:inline-flex; align-items:center; gap:10px;
+    background:#fff; color:var(--night);
+    padding:13px 22px; border-radius:10px;
+    font-weight:600; font-size:15px;
+    text-decoration:none;
+    border:1px solid transparent;
+  }
+  .btn-store svg{width:20px; height:20px; flex:none;}
+  .btn-store.soon{
+    background:transparent; color:#fff;
+    border:1px solid var(--hairline-night);
+  }
+  .btn-store .sub{display:block; font-size:11px; font-weight:400; opacity:0.65;}
+  .hero-note{font-size:13px; color:#93909f; margin-top:16px;}
+
+  /* Compass demo card */
+  .demo-card{
+    position:relative;
+    background:var(--night-soft);
+    border:1px solid var(--hairline-night);
+    border-radius:18px;
+    padding:26px 22px 22px;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.6);
+  }
+  .demo-top{display:flex; justify-content:space-between; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#8B8798; letter-spacing:0.03em;}
+  .demo-compass{display:flex; justify-content:center; margin:18px 0 10px;}
+  .needle{transform-origin:60px 60px; animation:sway 7s ease-in-out infinite;}
+  @keyframes sway{
+    0%,100%{transform:rotate(-6deg);}
+    50%{transform:rotate(9deg);}
+  }
+  .demo-readout{display:flex; justify-content:space-between; margin-top:6px;}
+  .demo-readout div{text-align:center; flex:1;}
+  .demo-readout .label{font-size:10px; color:#7A7787; font-family:'IBM Plex Mono',monospace; letter-spacing:0.06em;}
+  .demo-readout .val{font-family:'IBM Plex Mono',monospace; color:var(--gold); font-size:15px; margin-top:3px;}
+  .demo-alt{height:5px; background:#2B2C3E; border-radius:3px; margin-top:16px; overflow:hidden;}
+  .demo-alt span{display:block; height:100%; width:63%; background:var(--ember-bright);}
+
+  /* ---------- HOW IT WORKS ---------- */
+  .section{padding:88px 0;}
+  .section-head{max-width:52ch; margin-bottom:52px;}
+  .section-head h2{font-size:clamp(28px,3.4vw,38px); line-height:1.15;}
+  .section-head p{margin-top:14px; font-size:16px; color:var(--ink-soft); line-height:1.6;}
+
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:0;}
+  @media (max-width:760px){ .steps{grid-template-columns:1fr;} }
+  .step{
+    padding:0 28px 0 0;
+    border-left:1px solid var(--hairline);
+    padding-left:26px;
+  }
+  .step:first-child{border-left:none; padding-left:0;}
+  .step .num{font-family:'Fraunces',serif; font-size:15px; color:var(--ember); margin-bottom:14px;}
+  .step h3{font-size:20px; margin-bottom:10px;}
+  .step p{font-size:15px; line-height:1.6; color:var(--ink-soft); margin:0;}
+
+  /* ---------- FEATURES ---------- */
+  .features{background:var(--cream-dim); border-top:1px solid var(--hairline); border-bottom:1px solid var(--hairline);}
+  .feature-grid{display:grid; grid-template-columns:1fr 1fr; gap:2px; background:var(--hairline);}
+  @media (max-width:760px){ .feature-grid{grid-template-columns:1fr;} }
+  .feature{background:var(--cream-dim); padding:34px 30px;}
+  .feature .mark{width:30px; height:30px; margin-bottom:16px;}
+  .feature h3{font-size:18px; margin-bottom:8px;}
+  .feature p{font-size:14.5px; line-height:1.6; color:var(--ink-soft); margin:0;}
+
+  /* ---------- SCREEN MOCK ---------- */
+  .showcase{padding:96px 0; overflow:hidden;}
+  .showcase-inner{display:grid; grid-template-columns:0.9fr 1.1fr; gap:60px; align-items:center;}
+  @media (max-width:860px){ .showcase-inner{grid-template-columns:1fr;} }
+  .device{
+    background:var(--cream);
+    border:1px solid var(--hairline);
+    border-radius:22px;
+    box-shadow:0 40px 80px -30px rgba(36,29,20,0.28);
+    padding:18px;
+    transform:rotate(-2.5deg);
+  }
+  .device-screen{background:#fff; border-radius:14px; border:1px solid var(--hairline); padding:16px; font-family:'IBM Plex Mono',monospace;}
+  .device-row{display:flex; justify-content:space-between; font-size:10px; color:#9A927E; margin-bottom:10px;}
+  .obj-row{display:flex; justify-content:space-between; align-items:center; padding:9px 0; border-bottom:1px solid var(--hairline);}
+  .obj-row:last-child{border-bottom:none;}
+  .obj-name{font-family:'IBM Plex Sans',sans-serif; font-weight:600; font-size:13px;}
+  .obj-sub{font-size:10.5px; color:#9A927E; margin-top:2px;}
+  .obj-tag{font-size:9.5px; padding:2px 7px; border-radius:20px; background:#EFE9DA; color:var(--sage); border:1px solid var(--hairline);}
+  .obj-meta{text-align:right; font-size:10.5px; color:#9A927E;}
+
+  /* ---------- CTA ---------- */
+  .cta{
+    background:radial-gradient(ellipse 120% 100% at 50% 120%, #232640 0%, var(--night) 60%);
+    color:var(--cream);
+    padding:96px 0;
+    text-align:center;
+  }
+  .cta h2{font-size:clamp(30px,4vw,44px); color:#fff; max-width:20ch; margin:0 auto;}
+  .cta p{color:#B7B2C4; margin:18px auto 0; max-width:48ch; font-size:16.5px; line-height:1.6;}
+  .cta .hero-ctas{justify-content:center; margin-top:32px;}
+
+  footer{padding:36px 0; text-align:center; font-size:13px; color:#9A927E;}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="stars"></div>
+  <div class="wrap hero-inner">
+    <div>
+      <div class="eyebrow">FOR SEESTAR S50 OWNERS</div>
+      <h1>Point at the sky.<br>Know what's <em>worth</em><br>the exposure.</h1>
+      <p class="lede">Deep Sky Scanner turns your phone into an aiming tool — scan the sky, and get a ranked list of galaxies, clusters, and nebulae scored for altitude, brightness, and how well they'll actually fit your Seestar's frame.</p>
+      <div class="hero-ctas">
+        <a class="btn-store soon" href="#" id="app-store-link">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.7 12.5c0-2.9 2.4-4.3 2.5-4.4-1.4-2-3.5-2.3-4.3-2.3-1.8-.2-3.5 1.1-4.5 1.1s-2.4-1-4-1c-2 0-4 1.2-5 3-2.2 3.8-.6 9.3 1.5 12.4 1 1.5 2.2 3.2 3.8 3.1 1.5-.1 2.1-1 4-1s2.4 1 4 1c1.7 0 2.7-1.5 3.7-3 1.2-1.7 1.6-3.4 1.7-3.5-.1 0-3.2-1.2-3.4-4.4zM15.6 4c.8-1 1.4-2.3 1.2-3.6-1.2.1-2.6.8-3.5 1.8-.7.9-1.4 2.2-1.2 3.5 1.3.1 2.6-.6 3.5-1.7z"/></svg>
+          <span>App Store<span class="sub">Coming soon</span></span>
+        </a>
+      </div>
+      <div class="hero-note">Built specifically around the Seestar S50's frame size and imaging behavior.</div>
+    </div>
+
+    <div class="demo-card">
+      <div class="demo-top"><span>DEEP SKY SCANNER</span><span>SCAN</span></div>
+      <div class="demo-compass">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="52" fill="none" stroke="#33324A" stroke-width="1"/>
+          <circle cx="60" cy="60" r="52" fill="none" stroke="#2B2A3E" stroke-width="1" stroke-dasharray="1 7"/>
+          <text x="60" y="16" fill="#8B8798" font-size="9" font-family="IBM Plex Mono" text-anchor="middle">N</text>
+          <text x="60" y="112" fill="#5C5A6E" font-size="9" font-family="IBM Plex Mono" text-anchor="middle">S</text>
+          <g class="needle">
+            <line x1="60" y1="60" x2="60" y2="16" stroke="#D8B15C" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="60" y1="60" x2="60" y2="98" stroke="#4A4860" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="60" cy="60" r="4" fill="#D8B15C"/>
+          </g>
+        </svg>
+      </div>
+      <div class="demo-readout">
+        <div><div class="label">R.A.</div><div class="val">05h 50m 15s</div></div>
+        <div><div class="label">DEC</div><div class="val">+07° 19′</div></div>
+        <div><div class="label">ALT</div><div class="val">51.4°</div></div>
+      </div>
+      <div class="demo-alt"><span></span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Three moves, one ranked list</h2>
+      <p>No star-hopping, no guessing what's up. Scan the patch of sky your Seestar can actually see, and let the app do the sorting.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="num">01</div>
+        <h3>Point</h3>
+        <p>Hold your phone or iPad toward the sky. Full 3D orientation tracking reads your exact aim — steady even near the zenith, where ordinary compass apps lose their footing.</p>
+      </div>
+      <div class="step">
+        <div class="num">02</div>
+        <h3>Scan</h3>
+        <p>Every object within your field of view appears instantly, pulled from the full OpenNGC catalog with an offline fallback for nights without signal.</p>
+      </div>
+      <div class="step">
+        <div class="num">03</div>
+        <h3>Shoot</h3>
+        <p>Targets are ranked by altitude trajectory, brightness, and Seestar frame fit — so the top of the list is genuinely worth your imaging time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="wrap" style="padding-top:88px;">
+    <div class="section-head">
+      <h2>Built around a real imaging session</h2>
+    </div>
+  </div>
+  <div class="feature-grid">
+    <div class="feature">
+      <svg class="mark" viewBox="0 0 30 30" fill="none"><path d="M15 3l3.5 10.5L29 17l-10.5 3.5L15 31l-3.5-10.5L1 17l10.5-3.5L15 3z" stroke="#A6572B" stroke-width="1.4" stroke-linejoin="round"/></svg>
+      <h3>Ascending / descending badges</h3>
+      <p>See at a glance whether a target is climbing toward better altitude or already past its peak for the night.</p>
+    </div>
+    <div class="feature">
+      <svg class="mark" viewBox="0 0 30 30" fill="none"><rect x="4" y="4" width="22" height="22" rx="2" stroke="#7C9473" stroke-width="1.4"/><path d="M9 15l4 4 8-8" stroke="#7C9473" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <h3>Frame-fit scoring</h3>
+      <p>Objects are checked against the Seestar S50's actual field of view, so you're not left with a galaxy that spills off the edge.</p>
+    </div>
+    <div class="feature">
+      <svg class="mark" viewBox="0 0 30 30" fill="none"><circle cx="15" cy="15" r="11" stroke="#D8B15C" stroke-width="1.4"/><path d="M15 8v7l5 3" stroke="#D8B15C" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <h3>Planning mode</h3>
+      <p>Drag the time slider to preview the sky at any hour of the night and plan your session before you ever go outside.</p>
+    </div>
+    <div class="feature">
+      <svg class="mark" viewBox="0 0 30 30" fill="none"><path d="M6 26V6a2 2 0 012-2h14a2 2 0 012 2v20l-9-5-9 5z" stroke="#A6572B" stroke-width="1.4" stroke-linejoin="round"/></svg>
+      <h3>Per-object imaging notes</h3>
+      <p>Integration-time guidance by magnitude, edge-on galaxy detection, and nearby-companion flags for objects worth a wider frame.</p>
+    </div>
+  </div>
+</section>
+
+<section class="showcase">
+  <div class="wrap showcase-inner">
+    <div class="device">
+      <div class="device-screen">
+        <div class="device-row"><span>168 OBJECTS IN VIEW</span><span>▲ BEST</span></div>
+        <div class="obj-row">
+          <div><div class="obj-name">M93 · NGC 2447</div><div class="obj-sub">Open Cluster · Pup</div></div>
+          <div class="obj-meta">07h 44m 29s<br>mag 6.2</div>
+        </div>
+        <div class="obj-row">
+          <div><div class="obj-name">NGC 2482</div><div class="obj-sub">Open Cluster · Pup <span class="obj-tag">small</span></div></div>
+          <div class="obj-meta">1.7° away<br>mag 7.3</div>
+        </div>
+        <div class="obj-row">
+          <div><div class="obj-name">NGC 2520</div><div class="obj-sub">Open Cluster · Pup <span class="obj-tag">fits frame</span></div></div>
+          <div class="obj-meta">4.3° away<br>mag 6.5</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="section-head" style="margin-bottom:20px;">
+        <h2>Sorted the way you'd sort it yourself</h2>
+        <p>Toggle between best overall, brightest, or nearest to where you're pointed — and hide anything that won't fit the Seestar's frame well, before you waste a night on it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <h2>Take the guesswork out of tonight's session</h2>
+    <p>Deep Sky Scanner is heading to the App Store.</p>
+    <div class="hero-ctas">
+      <a class="btn-store soon" href="#" id="app-store-link-2">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.7 12.5c0-2.9 2.4-4.3 2.5-4.4-1.4-2-3.5-2.3-4.3-2.3-1.8-.2-3.5 1.1-4.5 1.1s-2.4-1-4-1c-2 0-4 1.2-5 3-2.2 3.8-.6 9.3 1.5 12.4 1 1.5 2.2 3.2 3.8 3.1 1.5-.1 2.1-1 4-1s2.4 1 4 1c1.7 0 2.7-1.5 3.7-3 1.2-1.7 1.6-3.4 1.7-3.5-.1 0-3.2-1.2-3.4-4.4zM15.6 4c.8-1 1.4-2.3 1.2-3.6-1.2.1-2.6.8-3.5 1.8-.7.9-1.4 2.2-1.2 3.5 1.3.1 2.6-.6 3.5-1.7z"/></svg>
+          <span>App Store<span class="sub">Coming soon</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Deep Sky Scanner — an independent tool for Seestar S50 owners, not affiliated with ZWO. · <a href="privacy.html">Privacy Policy</a>
+</footer>
+
+</body>
+</html>
