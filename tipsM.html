@@ -300,6 +300,7 @@
     <a href="#large-galaxy">Large galaxy</a>
     <a href="#small-nebula">Small nebula</a>
     <a href="#large-diffuse-nebula">Large diffuse nebula</a>
+    <a href="#dark-nebula">Dark nebula</a>
     <a href="#planetary-nebula">Planetary nebula</a>
     <a href="#open-cluster">Open cluster</a>
     <a href="#globular-cluster">Globular cluster</a>
@@ -482,7 +483,38 @@ stack r_pp_light rej w 3 3 -norm=addscale -output_norm</span></code></li>
         <code class="cmd"><span class="console">denoise -nocosmetic</span>
 <span class="menu">apply before the last GHS pass, not after</span></code></li>
     </ol>
-    <p class="see-also"><span class="label">SEE ALSO:</span> <a href="#star-colors">Accurate star colors</a> · <a href="#mosaic-seams">Mosaic seam management</a></p>
+    <p class="see-also"><span class="label">SEE ALSO:</span> <a href="#star-colors">Accurate star colors</a> · <a href="#mosaic-seams">Mosaic seam management</a> · <a href="#dark-nebula">Dark nebula</a></p>
+    <a class="back-to-top" href="#">↑ back to top</a>
+  </section>
+
+  <section class="entry" id="dark-nebula">
+    <div class="entry-head">
+      <span class="tag">NEBULA</span>
+      <h2>Dark nebula</h2>
+    </div>
+    <p class="criteria">pure obscuration/extinction — almost no photon signal of its own, revealed only as a silhouette against background stars and IFN — e.g. LDN 1235, Barnard 175 / vdB 152</p>
+    <ol class="steps">
+      <li><b>Understand what you're actually stacking for.</b>
+        <span class="why">A dark nebula emits essentially nothing itself — what you're building SNR on is the star field and faint galactic cirrus behind it, so the extinction pattern reads clearly as a silhouette. Treat integration time the same way you would for large diffuse nebula/IFN work, not like a compact bright target.</span>
+        <code class="cmd"><span class="menu">Plan for 4–6 hours minimum; 7+ hours is typical in published results for targets this faint</span></code></li>
+      <li><b>Be careful with Background Extraction — it's the step most likely to erase the very thing you're trying to reveal here.</b>
+        <span class="why">The dark nebula itself IS a background variation from the tool's point of view. An automatic sample grid can easily drop points inside the dark patch and "correct" it flat, along with any real vignetting or gradient.</span>
+        <code class="cmd"><span class="menu">Image Processing → Background Extraction → RBF, zoom out first to trace the dark nebula's boundary, then place/move sample points to stay clearly outside it — always tick "show background" and check the model before applying</span>
+<span class="console">subsky -rbf -samples=20</span></code></li>
+      <li><b>SPCC for field star color</b>, same as any other target — it calibrates off the stars around the nebula, not the extinction itself.
+        <code class="cmd"><span class="menu">Ctrl+Shift+C, or Image Processing → Color Calibration → Spectrophotometric Color Calibration</span>
+<span class="console">spcc</span></code></li>
+      <li><b>Use a dual-stretch pass rather than one global stretch</b> if there's an embedded or illuminating star / reflection nebula component (common — vdB 152 sits right next to Barnard 175, for example).
+        <span class="why">One stretch curve rarely suits both a relatively bright point source and the surrounding near-black extinction — protect the bright component first (see <a href="#core-protection">core protection</a>), then stretch the dark region separately with a low black point so the subtle darkening doesn't get crushed to flat black.</span>
+        <code class="cmd"><span class="menu">Mask/protect the bright star or reflection nebula (inverted mask), then run a separate low-D, low-SP GHS pass on the rest to bring out contrast in the extinction without raising the black point too far</span></code></li>
+      <li><b>Consider light star reduction across the field</b> — not for the usual "stars compete with a small subject" reason, but because fewer/smaller field stars make the extinction shape itself easier to read at a glance.
+        <code class="cmd"><span class="menu">See <a href="#star-reduction">De-emphasizing stars</a> for the technique — apply at a lighter touch than you would for a small faint galaxy</span></code></li>
+      <li><b>Targeted local-contrast pass on the dark region</b> once the overall stretch is right, same principle as working a galaxy's dust lane.
+        <code class="cmd"><span class="menu">Select the dark nebula's tonal range (Color Range on shadows, feathered), apply Local Contrast/Clarity within that selection only</span></code></li>
+      <li><b>Masked, background-only denoise</b> rather than a global pass — you're pushing shadows hard across a large area, and that's exactly where noise shows up first and fastest.
+        <code class="cmd"><span class="menu">See <a href="#masked-denoise">Background-only denoise</a> for the full masking technique</span></code></li>
+    </ol>
+    <p class="see-also"><span class="label">SEE ALSO:</span> <a href="#large-diffuse-nebula">Large diffuse nebula</a> · <a href="#core-protection">Protecting a bright core</a> · <a href="#dust-lane">Dust lanes &amp; fine structure</a> · <a href="#star-reduction">De-emphasizing stars</a> · <a href="#masked-denoise">Background-only denoise</a></p>
     <a class="back-to-top" href="#">↑ back to top</a>
   </section>
 
@@ -600,7 +632,7 @@ stack r_pp_light rej w 3 3 -norm=addscale -output_norm</span></code></li>
         <code class="cmd"><span class="menu">Select the dust lane's tonal range (Color Range on shadows, feathered), apply Local Contrast/Clarity within that selection only</span></code></li>
       <li><b>Finish with light hand dodge/burn along the lane</b> — see <a href="#dodge-burn">Dimensional / 3D look</a> for the technique.</li>
     </ol>
-    <p class="see-also"><span class="label">SEE ALSO:</span> <a href="#medium-galaxy">Medium galaxy</a> · <a href="#core-protection">Protecting a bright core</a> · <a href="#dodge-burn">Dimensional / 3D look</a></p>
+    <p class="see-also"><span class="label">SEE ALSO:</span> <a href="#medium-galaxy">Medium galaxy</a> · <a href="#core-protection">Protecting a bright core</a> · <a href="#dodge-burn">Dimensional / 3D look</a> · <a href="#dark-nebula">Dark nebula</a></p>
     <a class="back-to-top" href="#">↑ back to top</a>
   </section>
 
@@ -640,7 +672,7 @@ stack r_pp_light rej w 3 3 -norm=addscale -output_norm</span></code></li>
         <code class="cmd"><span class="menu">Duplicate image, apply GHS at two strengths, blend via the radial/luminance mask</span></code></li>
       <li><b>Check the histogram between each pass</b> rather than trusting the autostretch preview — it's easy to over-stretch the protected side without noticing until you look at the numbers.</li>
     </ol>
-    <p class="see-also"><span class="label">SEE ALSO:</span> <a href="#medium-galaxy">Medium galaxy</a> · <a href="#planetary-nebula">Planetary nebula</a> · <a href="#globular-cluster">Globular cluster</a></p>
+    <p class="see-also"><span class="label">SEE ALSO:</span> <a href="#medium-galaxy">Medium galaxy</a> · <a href="#planetary-nebula">Planetary nebula</a> · <a href="#globular-cluster">Globular cluster</a> · <a href="#dark-nebula">Dark nebula</a></p>
     <a class="back-to-top" href="#">↑ back to top</a>
   </section>
 
@@ -658,7 +690,7 @@ PixInsight: StarNet star removal, keep the extracted star layer separately</span
       <li><b>Recombine and check for halos</b> around the largest stars — a too-aggressive reduction leaves a visible ring; back off if so.</li>
       <li><b>Skip this entirely for open clusters</b> and anything where the stars themselves are the subject — reducing them there works against the target, not for it.</li>
     </ol>
-    <p class="see-also"><span class="label">SEE ALSO:</span> <a href="#small-faint-galaxy">Small, faint galaxy</a> · <a href="#small-nebula">Small nebula</a></p>
+    <p class="see-also"><span class="label">SEE ALSO:</span> <a href="#small-faint-galaxy">Small, faint galaxy</a> · <a href="#small-nebula">Small nebula</a> · <a href="#dark-nebula">Dark nebula</a></p>
     <a class="back-to-top" href="#">↑ back to top</a>
   </section>
 
@@ -680,7 +712,7 @@ PixInsight: StarNet star removal, keep the extracted star layer separately</span
       <li><b>Flatten and check the seam at 100% zoom.</b> A visible ring or brightness step at the old selection boundary means the feather was too tight — undo and redo with a larger feather radius.</li>
       <li><b>If the galaxy's own edge still looks noisy</b> right at the boundary, that's expected — the transition zone between subject and sky is inherently harder to clean without eating into real signal. Don't chase it further unless you're printing large or cropping in tight.</li>
     </ol>
-    <p class="see-also"><span class="label">SEE ALSO:</span> <a href="#large-galaxy">Large galaxy or galaxy group</a> · <a href="#small-faint-galaxy">Small, faint galaxy</a> · <a href="#core-protection">Protecting a bright core</a></p>
+    <p class="see-also"><span class="label">SEE ALSO:</span> <a href="#large-galaxy">Large galaxy or galaxy group</a> · <a href="#small-faint-galaxy">Small, faint galaxy</a> · <a href="#core-protection">Protecting a bright core</a> · <a href="#dark-nebula">Dark nebula</a></p>
     <a class="back-to-top" href="#">↑ back to top</a>
   </section>
 
@@ -735,7 +767,7 @@ PixInsight: StarNet star removal, keep the extracted star layer separately</span
   </section>
 
   <footer>
-    Field notes from processing sessions on M94, Markarian's Chain, Ghost Nebula (VdB 141), Coma Cluster, IC 342, and Sh2-216/232/235 with a Seestar S50. Part of the <a href="https://github.com/">DeepSkyScanner</a> project. Corrections and additions welcome via GitHub issues.
+    Field notes from processing sessions on M94, Markarian's Chain, Ghost Nebula (VdB 141), Coma Cluster, IC 342, Sh2-216/232/235, and dark nebula targets like LDN 1235 and Barnard 175/vdB 152 with a Seestar S50. Part of the <a href="https://github.com/">DeepSkyScanner</a> project. Corrections and additions welcome via GitHub issues.
   </footer>
 
 </div>
