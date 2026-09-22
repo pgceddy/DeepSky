@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Getting Started — Deep Sky Scanner</title>
+<meta name="description" content="A quick guide to setting up and using Deep Sky Scanner to plan and aim your Seestar sessions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F3EFE4; --cream-dim:#EAE4D4; --ink:#241D14; --ink-soft:#4A4032;
+    --ember:#A6572B; --ember-bright:#C6703C; --gold:#D8B15C; --sage:#7C9473;
+    --hairline:rgba(36,29,20,0.14);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--cream); color:var(--ink); font-family:'IBM Plex Sans',sans-serif; line-height:1.65;}
+  .wrap{max-width:720px; margin:0 auto; padding:64px 28px 100px;}
+  h1{font-family:'Fraunces',serif; font-weight:500; font-size:clamp(30px,4vw,42px); margin:0 0 14px;}
+  h2{font-family:'Fraunces',serif; font-weight:500; font-size:22px; margin:52px 0 6px;}
+  .lede{font-size:16.5px; color:var(--ink-soft); max-width:52ch; margin:0 0 40px;}
+  p{font-size:15.5px; color:var(--ink-soft); margin:0 0 14px;}
+  a{color:var(--ember);}
+  .back{display:inline-block; margin-bottom:36px; font-size:14px; color:var(--ink-soft); text-decoration:none;}
+  hr{border:none; border-top:1px solid var(--hairline); margin:52px 0;}
+  footer{font-size:13px; color:#9A927E; text-align:center; margin-top:56px;}
+
+  .callout{
+    background:var(--cream-dim); border:1px solid var(--hairline); border-radius:14px;
+    padding:20px 22px; margin:8px 0 40px;
+  }
+  .callout p{margin:0; font-size:15px;}
+  .callout strong{color:var(--ink);}
+
+  /* Numbered steps */
+  .steps{counter-reset:step; margin:0;}
+  .step{
+    position:relative; padding:0 0 28px 46px; border-left:2px solid var(--hairline);
+    margin-left:15px;
+  }
+  .step:last-child{border-left:2px solid transparent; padding-bottom:0;}
+  .step::before{
+    counter-increment:step; content:counter(step);
+    position:absolute; left:-15px; top:0;
+    width:30px; height:30px; border-radius:50%;
+    background:var(--ember); color:#fff;
+    font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .step h3{font-family:'Fraunces',serif; font-weight:500; font-size:18px; margin:2px 0 8px;}
+  .step p{margin:0 0 8px;}
+  .step .note{font-size:13.5px; color:#8B8368; font-style:italic;}
+
+  /* Badge legend */
+  .badges{display:flex; flex-direction:column; gap:12px; margin:0 0 14px;}
+  .badge-row{display:flex; align-items:flex-start; gap:12px;}
+  .badge-tag{
+    flex:none; font-family:'IBM Plex Mono',monospace; font-size:11.5px;
+    padding:3px 9px; border-radius:20px; white-space:nowrap; margin-top:1px;
+  }
+  .badge-tag.frame{background:#E9F0E3; color:var(--sage); border:1px solid var(--hairline);}
+  .badge-tag.small{background:#F3E7D8; color:var(--ember); border:1px solid var(--hairline);}
+  .badge-tag.asc{background:#F3EAD0; color:#96792E; border:1px solid var(--hairline);}
+  .badge-row p{margin:0; font-size:14.5px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">← Deep Sky Scanner</a>
+  <h1>Getting Started</h1>
+  <p class="lede">Everything you need to go from a fresh install to your first ranked target list, in about five minutes.</p>
+
+  <div class="callout">
+    <p><strong>Before you start:</strong> the first time you launch the app, connect to Wi-Fi or cellular. Deep Sky Scanner needs one successful connection to download the full star catalog — after that, it works offline indefinitely and refreshes itself automatically whenever you're back online.</p>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <h3>Grant permissions</h3>
+      <p>On first launch, allow <strong>Location</strong> and <strong>Motion &amp; Orientation</strong> access. Location is used to calculate what's above your horizon; motion sensors are what let the app know which way you're pointing. Neither ever leaves your device.</p>
+    </div>
+    <div class="step">
+      <h3>Pick your telescope</h3>
+      <p>Tap the <strong>gear icon</strong> on the main screen and choose your Seestar model (S30, S30 Pro, S50, or S50 Pro). This sets the correct field of view for frame-fit scoring, so ranked results actually reflect what your telescope can capture.</p>
+      <p class="note">You can also set your default field of view, magnitude limit, and planning-mode start time here.</p>
+    </div>
+    <div class="step">
+      <h3>Point and scan</h3>
+      <p>Hold your device toward the sky and tap <strong>Scan</strong>. Every catalog object in your field of view appears, ranked by altitude trajectory, brightness, or how well it fits your telescope's frame — switch ranking with the sort button above the list.</p>
+    </div>
+    <div class="step">
+      <h3>Open an object's card</h3>
+      <p>Tap any result for its full detail view: rise time and best imaging window, an integration-time payoff curve, a quick reference summary, and processing tips for that object type — all in one place.</p>
+    </div>
+    <div class="step">
+      <h3>Find a specific target</h3>
+      <p>Know what you're after? Tap <strong>Find</strong> and search by name. The compass needle points you toward it; tap <strong>Lock</strong> to freeze the reading while you get your telescope aligned.</p>
+    </div>
+    <div class="step">
+      <h3>Plan ahead</h3>
+      <p>Switch to <strong>Plan</strong> mode and drag the time slider to preview the sky at any hour — decide what's worth setting up for before you ever step outside.</p>
+    </div>
+  </div>
+
+  <h2>Reading the badges</h2>
+  <p>A few small tags appear next to objects in your results — here's what they mean:</p>
+  <div class="badges">
+    <div class="badge-row">
+      <span class="badge-tag frame">✓ fits frame</span>
+      <p>This object fits comfortably within your telescope's field of view.</p>
+    </div>
+    <div class="badge-row">
+      <span class="badge-tag small">◆ small</span>
+      <p>The object is noticeably smaller than your frame — still capturable, just with more empty space around it.</p>
+    </div>
+    <div class="badge-row">
+      <span class="badge-tag asc">↑ / ↓</span>
+      <p>Shows whether the object is still climbing toward a better altitude or has already passed its peak for tonight.</p>
+    </div>
+  </div>
+
+  <h2>Adding your own targets</h2>
+  <p>Chasing something outside the standard catalog — a dark nebula, a faint IFN field, anything from a specialty list? Add it yourself under <strong>Settings → Custom Objects</strong>. Once added, it's ranked and scored right alongside everything else.</p>
+
+  <hr>
+  <footer>
+    Questions or feedback? See the <a href="privacy.html">Privacy Policy</a> or get in touch via the App Store listing.
+  </footer>
+</div>
+</body>
+</html>
